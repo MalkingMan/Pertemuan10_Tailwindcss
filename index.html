@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Food blog with Tailwind CSS">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delicious - Food Blog Tailwind</title>
+  <link rel="icon" href="img/core-img/favicon.ico" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#40ba37',
+            secondary: '#1c8314',
+          },
+          fontFamily: {
+            sans: ['Open Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Alpine.js for carousel logic -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- HEADER -->
+  <header class="shadow-md sticky top-0 bg-white z-50">
+    <div class="container mx-auto flex justify-between items-center px-6 py-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="img/core-img/logo.png" alt="Logo" class="h-10">
+        <span class="text-xl font-bold text-primary">Delicious</span>
+      </a>
+      <nav>
+        <ul class="flex gap-6 text-sm font-semibold">
+          <li><a href="index.html" class="text-primary hover:text-secondary transition">Home</a></li>
+          <li><a href="about.html" class="text-gray-600 hover:text-primary transition">About Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO CAROUSEL -->
+  <section class="relative overflow-hidden" x-data="{ slide: 0, slides: [
+    { image: 'img/bg-img/bg1.jpg', title: 'Burger Daging Sapi Lezat dengan Saus Spesial', text: 'Burger ini dibuat dari daging sapi pilihan yang dibumbui sempurna dan dipanggang juicy.' },
+    { image: 'img/food-img/Kebab.jpg', title: 'Kebab Halal dengan Saus Yogurt', text: 'Kebab halal ini dibuat dari irisan daging sapi yang dimarinasi dan disajikan dengan saus yogurt segar.' },
+    { image: 'img/food-img/Wagyu.jpg', title: 'Steak Wagyu Saus Lada Hitam', text: 'Steak wagyu lembut disajikan dengan saus lada hitam yang menggugah selera.' }
+  ] }">
+    <div class="relative h-[600px]">
+      <template x-for="(item, index) in slides" :key="index">
+        <div x-show="slide === index" x-transition class="absolute inset-0 bg-cover bg-center flex items-center justify-start px-10" :style="'background-image: url(' + item.image + ')'">
+          <div class="bg-black bg-opacity-60 p-8 max-w-xl text-white rounded-lg shadow-lg">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4" x-text="item.title"></h2>
+            <p class="leading-relaxed" x-text="item.text"></p>
+          </div>
+        </div>
+      </template>
+
+      <!-- Controls -->
+      <div class="absolute inset-0 flex items-center justify-between px-4 z-10">
+        <button @click="slide = slide === 0 ? slides.length - 1 : slide - 1" class="bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70">&#8592;</button>
+        <button @click="slide = slide === slides.length - 1 ? 0 : slide + 1" class="bg-black bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70">&#8594;</button>
+      </div>
+
+      <!-- Indicators -->
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+        <template x-for="(item, index) in slides" :key="index">
+          <div @click="slide = index" :class="slide === index ? 'bg-primary' : 'bg-white'" class="w-3 h-3 rounded-full cursor-pointer border border-primary"></div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP CATEGORY -->
+  <section class="py-16 bg-gray-100">
+    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="img/food-img/Pizza.jpg" alt="Pizza" class="w-full h-64 object-cover group-hover:scale-105 transition-transform">
+        <div class="absolute bottom-0 left-0 w-full p-5 bg-gradient-to-t from-black to-transparent text-white">
+          <h3 class="text-2xl font-bold">Italian Pizza</h3>
+          <p class="text-sm">Simple &amp; Delicious</p>
+          <a href="receipe-post_Pizza.html" class="inline-block mt-2 bg-primary hover:bg-secondary py-2 px-4 rounded text-sm">See Full Recipe</a>
+        </div>
+      </div>
+
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="img/food-img/Burger.jpg" alt="Burger" class="w-full h-64 object-cover group-hover:scale-105 transition-transform">
+        <div class="absolute bottom-0 left-0 w-full p-5 bg-gradient-to-t from-black to-transparent text-white">
+          <h3 class="text-2xl font-bold">Burger</h3>
+          <p class="text-sm">Simple &amp; Delicious</p>
+          <a href="receipe-post_Burger.html" class="inline-block mt-2 bg-primary hover:bg-secondary py-2 px-4 rounded text-sm">See Full Recipe</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="h-[400px] bg-cover bg-center relative flex items-center justify-center text-center text-white" style="background-image: url('img/bg-img/bg4.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div class="relative z-10 max-w-2xl px-4">
+      <h2 class="text-4xl font-bold mb-4">Non-Healthy Food</h2>
+      <p class="text-lg">Makanan tinggi lemak dan gula dapat menggoda, namun berdampak serius bagi kesehatan jika dikonsumsi berlebihan.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t mt-16">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center px-6 py-8 text-sm text-gray-600">
+      <p>&copy; 2025 Delicious Blog</p>
+      <img src="img/core-img/logo.png" alt="logo" class="h-8 mt-4 sm:mt-0" />
+    </div>
+  </footer>
+
+</body>
+
+</html>
